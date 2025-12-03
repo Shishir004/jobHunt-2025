@@ -33,7 +33,7 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
       const res = await axios.post(
-        "http://localhost:3000/api/user/login",
+        "https://jobhunt-2025.onrender.com/api/user/login",
         formData,
         {
           headers: {

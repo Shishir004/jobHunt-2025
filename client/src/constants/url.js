@@ -1,1 +1,1 @@
-export  const BACKEND_URL="http://localhost:5173/api/user";
+export  const BACKEND_URL="https://jobhunt-2025.onrender.com/api/user";

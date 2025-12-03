@@ -176,7 +176,7 @@ const UpdateProfile = ({ open, setOpen }) => {
     try {
       setLoading(true);
       const res = await axios.put(
-        "http://localhost:3000/api/user/update-profile",
+        "https://jobhunt-2025.onrender.com/api/user/update-profile",
         formData,
         {
           headers: {

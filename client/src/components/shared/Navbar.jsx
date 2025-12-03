@@ -14,7 +14,7 @@ const Navbar = () => {
 
   const deleteData = async () => {
     try {
-      const res = await axios.delete("http://localhost:3000/api/user/logout");
+      const res = await axios.delete("https://jobhunt-2025.onrender.com/api/user/logout");
       if (res.data.success) {
         dispatch(setUser(null));
         navigate("/");

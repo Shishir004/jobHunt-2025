@@ -45,7 +45,7 @@ const Signup = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/user/register",
+        "https://jobhunt-2025.onrender.com/api/user/register",
         formData,
         {
           withCredentials: true,

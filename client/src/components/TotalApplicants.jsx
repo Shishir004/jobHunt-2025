@@ -17,7 +17,7 @@ const TotalApplicants = () => {
   const updateStatusHandler = async (id, status) => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/application/update/status/${id}`,
+        `https://jobhunt-2025.onrender.com/api/application/update/status/${id}`,
         { status },
         { withCredentials: true }
       );
@@ -45,7 +45,7 @@ const TotalApplicants = () => {
       if (!jobId) return;
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/application/get/Applicants/${jobId}`
+          `https://jobhunt-2025.onrender.com/api/application/get/Applicants/${jobId}`
         );
         dispatch(setApplication(res.data.job.applications));
       } catch (error) {
