@@ -13,7 +13,7 @@ const isAuthenticated = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid Token", success: false });
     }
 
-    req.id = decode.userId; // ✅ This must be set
+    req.id = decode.userId;
     next();
   } catch (error) {
     console.log("Auth Middleware Error:", error);

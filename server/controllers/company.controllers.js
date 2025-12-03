@@ -2,33 +2,68 @@ const Company = require("../models/company.model");
 const getDatauri=require('../utils/datauri')
 const cloudinary = require("../utils/cloudinary");
 
+// const registerCompany = async (req, res) => {
+//   try {
+//     const { CompanyName } = req.body;
+//     if (!CompanyName) {
+//       return res.status(400).json({ message: "please provide the details" });
+//     }
+//     let company = await Company.findOne({ CompanyName });
+//     if (company) {
+//       return res
+//         .status(400)
+//         .json({ message: "Company Already exist", success: false });
+//     }
+//     company = await Company.create({
+//       name: CompanyName,
+//       userId: req.id,
+//     });
+//     return res
+//       .status(200)
+//       .json({
+//         message: "Company registered successfully",
+//         company,
+//         success: true,
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+
 const registerCompany = async (req, res) => {
   try {
-    const { CompanyName } = req.body;
-    if (!CompanyName) {
-      return res.status(400).json({ message: "please provide the details" });
+    const CompanyName = req.body.CompanyName || req.body.name || req.body.companyName;
+    const name = CompanyName && String(CompanyName).trim().toLowerCase();
+
+    if (!name) {
+      return res.status(400).json({ message: "Please provide the company name", success: false });
     }
-    let company = await Company.findOne({ CompanyName });
-    if (company) {
-      return res
-        .status(400)
-        .json({ message: "Company Already exist", success: false });
+
+    // ensure authenticated
+    const userId = req.id || (req.user && (req.user.id || req.user._id));
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: login required", success: false });
     }
-    company = await Company.create({
-      name: CompanyName,
-      userId: req.id,
-    });
-    return res
-      .status(200)
-      .json({
-        message: "Company registered successfully",
-        company,
-        success: true,
-      });
+
+    // duplicate check uses DB field `name`
+    const existing = await Company.findOne({ name });
+    if (existing) {
+      return res.status(400).json({ message: "Company already exists", success: false });
+    }
+
+    const company = await Company.create({ name, userId });
+    return res.status(201).json({ message: "Company registered successfully", success: true, company });
   } catch (error) {
-    console.log(error);
+    console.error("registerCompany error:", error);
+    // handle duplicate race-condition when unique index exists
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Company already exists", success: false });
+    }
+    return res.status(500).json({ message: "Internal server error", success: false });
   }
 };
+
 const getCompany = async (req, res) => {
   try {
     const userId = req.id;
