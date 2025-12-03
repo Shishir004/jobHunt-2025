@@ -1,0 +1,49 @@
+const { application } = require('express');
+const mongoose=require('mongoose');
+const jobSchema=new mongoose.Schema({
+    title:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+     requirements:[{
+        type:String
+     }],
+     Salary:{
+        type:Number,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
+    },
+    jobType:{
+        type:String,
+        required:true
+    },
+    position:{
+        type:Number,
+        required:true
+    },
+    experience:{
+        type:Number,
+        required:true
+    },
+    companyId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Company"
+    },
+    createdBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    applications:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Application"
+    }]
+},{timestamps:true})
+const Job=mongoose.model("Job",jobSchema);
+module.exports=Job;
