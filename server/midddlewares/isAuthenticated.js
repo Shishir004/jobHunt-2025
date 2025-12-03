@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+console.log('Origin header:', req.headers.origin);
+console.log('Cookies on request:', req.headers.cookie || req.cookies);
 
 const isAuthenticated = async (req, res, next) => {
   try {
